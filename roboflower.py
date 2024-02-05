@@ -21,7 +21,7 @@ rf = Roboflow(api_key=roboflowApi)
 project = rf.workspace().project("clouds-hfkdk")
 model = project.version("1").model
 
-st.title("Simple Cloud Detection")
+st.title("Supersimple Cloud Detection")
 st.info("First try of Image Detection with Roboflow. So far only trained with 50 Images")
     
 # File upload
@@ -70,6 +70,7 @@ if uploaded_file is not None:
         # Sort DataFrame by Confidence in descending order
         df_sorted = df.sort_values(by="Confidence", ascending=False)
         bestPrediction = df_sorted.index[0]
+
         
         #st.info(highestCoicidenceClass)
 
@@ -95,6 +96,9 @@ if uploaded_file is not None:
                 st.subheader("Prediction: " + bestPrediction)
                 #st.write(f"Predicted Cloud Type: {df_sorted.index[0]}")
                 st.write(f"Confidence: {df_sorted['Confidence'].iloc[0]:.2%}")
+                confidenceLevel = df_sorted['Confidence'].iloc[0]
+                if confidenceLevel < 0.5:
+                        st.warning("Low level of confidence")
                   
 
         if bestPrediction =="Cirrus":

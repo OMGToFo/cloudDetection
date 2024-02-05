@@ -1,20 +1,28 @@
 import streamlit as st
 from PIL import Image
-import tensorflow as tf
-import numpy as np
+
 
 import pandas as pd
 
-import cv2 as cv
 
 import tempfile
 
+
+import os
+from dotenv import load_dotenv
+load_dotenv(".env")
+
+roboflowApi = os.getenv("roboflowApi")
+
+
+
 from roboflow import Roboflow
-rf = Roboflow(api_key="IhAPnZYEZiYS1trkKLgp")
+rf = Roboflow(api_key=roboflowApi)
 project = rf.workspace().project("clouds-hfkdk")
 model = project.version("1").model
 
 st.title("Simple Cloud Detection")
+st.info("First try of Image Detection with Roboflow. So far only trained with 50 Images")
     
 # File upload
 #st.write('Select an image to upload.')
@@ -31,10 +39,7 @@ uploaded_file = st.file_uploader('Upload an image',
 
     
 if uploaded_file is not None:
-        # Display the uploaded image
-        #image = Image.open(uploaded_file)
-        #uploaded_img = np.array(image)
-        #inferenced_img = uploaded_img.copy()
+
 
         # Save the uploaded image to a temporary file
         with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
@@ -42,11 +47,6 @@ if uploaded_file is not None:
                 tmp_file.write(uploaded_file.read())
         #ladda image from temp location
         img = Image.open(tmp_filename)
-
-
-        #thomasBild = cv.imread(image_path)
-
-        
 
 
         predictions = model.predict(tmp_filename) #, overlap=30,confidence=40)

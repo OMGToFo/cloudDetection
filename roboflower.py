@@ -18,7 +18,7 @@ roboflowApi = os.getenv("roboflowApi")
 
 from roboflow import Roboflow
 rf = Roboflow(api_key=roboflowApi)
-project = rf.workspace().project("clouds-hfkdk/2")
+project = rf.workspace().project("clouds-hfkdk")
 model = project.version("1").model
 
 st.title("Supersimple Cloud Detection")
